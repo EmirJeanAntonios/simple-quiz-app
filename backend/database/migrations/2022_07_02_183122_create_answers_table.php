@@ -14,7 +14,8 @@ class CreateAnswersTable extends Migration
     public function up()
     {
         Schema::create('answers', function (Blueprint $table) {
-            $table->uuid("uuid")->primary();
+            $table->id();
+            $table->uuid("uuid");
             $table->mediumText("answer");
             $table->boolean("isCorrect")->default(false);
             $table->foreignUuid("question_uuid")->references("uuid")->on("questions");

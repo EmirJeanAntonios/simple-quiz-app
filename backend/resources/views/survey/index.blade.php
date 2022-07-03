@@ -15,28 +15,40 @@
                                         Survey Name
                                     </th>
                                     <th>
-                                       Settings
+                                        Settings
                                     </th>
                                     <th>
-                                        Questions                                    
+                                        Questions
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="py-1">
-                                       Name
-                                    </td>
-                                    <td>
-                                        Herman Beck
-                                    </td>
-                                    <td>
-                                        <div class="progress">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: 25%"
-                                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @foreach ($surveys as $survey)
+                                    <tr>
+                                        <td class="py-1">
+                                            {{ $survey->name }}
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                <a  class="btn btn-primary" href="{{route('survey.edit',(string)$survey->uuid)}}">
+                                                    <i class="mdi mdi-wrench"></i>
+                                                </a>
+                                                <button type="button" class="btn btn-primary">
+                                                    <i class="ti-calendar"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-primary">
+                                                    <i class="ti-time"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 25%"
+                                                    aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

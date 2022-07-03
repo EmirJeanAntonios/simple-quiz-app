@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(["middleware" => "auth"], function () {
    
     /* Resources */
-    Route::resource("/survey",SurveyController::class);
+    Route::resource("survey",SurveyController::class);
 
     
     Route::get('/dashboard', function () {

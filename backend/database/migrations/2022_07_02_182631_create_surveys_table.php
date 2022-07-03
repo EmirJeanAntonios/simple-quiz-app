@@ -14,7 +14,8 @@ class CreateSurveysTable extends Migration
     public function up()
     {
         Schema::create('surveys', function (Blueprint $table) {
-            $table->uuid("uuid")->primary();
+            $table->id();
+            $table->uuid("uuid");
             $table->mediumText("name");
             $table->timestamps();
         });

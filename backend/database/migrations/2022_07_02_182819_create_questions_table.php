@@ -14,7 +14,8 @@ class CreateQuestionsTable extends Migration
     public function up()
     {
         Schema::create('questions', function (Blueprint $table) {
-            $table->uuid("uuid")->primary();
+            $table->id();
+            $table->uuid("uuid");
             $table->mediumText("question");
             $table->foreignUuid("survey_uuid")->references("uuid")->on("surveys");
             $table->timestamps();
