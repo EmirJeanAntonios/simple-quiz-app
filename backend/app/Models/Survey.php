@@ -11,13 +11,17 @@ class Survey extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = "uuid";
+    protected $keyType = "string";
+    public $incrementing = false;
 
+    protected $fillable = ['name'];
 
     public static function boot()
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = (string) Str::uuid();
+            $model->{$model->getKeyName()} = (string) Str::uuid();
         });
     }
     public function questions()

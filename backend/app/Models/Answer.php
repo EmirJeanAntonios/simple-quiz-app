@@ -9,14 +9,21 @@ use Illuminate\Support\Str;
 class Answer extends Model
 {
     use HasFactory;
+    
+    protected $primaryKey = "uuid";
+    protected $keyType = "string";
+    public $incrementing = false;
+
+    protected $fillable = ['answer','isCorrect'];
 
     public static function boot()
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = (string) Str::uuid();
+            $model->{$model->getKeyName()} = (string) Str::uuid();
         });
     }
+
     public function question()
     {
         return $this->belongsTo("questions", "question_uuid");

@@ -38,9 +38,9 @@ class SurveyController extends Controller
     public function store(Request $request)
     {
         try {
-            $survey = new Survey();
-            $survey->name = $request->name;
-            $survey->save();
+            Survey::create([
+                'name' => $request->name
+            ]);
             return redirect(route("survey.create"))->with("success", "Successfuly created!");
         } catch (\Throwable $th) {
             Log::error($th);
