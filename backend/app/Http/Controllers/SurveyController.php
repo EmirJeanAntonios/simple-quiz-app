@@ -15,7 +15,7 @@ class SurveyController extends Controller
      */
     public function index()
     {
-        $surveys = Survey::all();
+        $surveys = Survey::where("isActive","=",true)->get();
         return view("survey.index", compact("surveys"));
     }
 
@@ -101,8 +101,23 @@ class SurveyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        //
+        try {
+            $survey = Survey::where("uuid", "=", $uuid)->first();
+            $survey->isActive = false;
+            foreach ($survey->questions as $question) {
+                foreach ($question->answers as $answer) {
+                    $answer->isActive = false;
+                    $answer->save();
+                }
+                $question->isActive = false;
+                $question->save();
+            }
+            $survey->save();
+        } catch(\Throwable $th) {
+            Log::error($th);
+
+        }
     }
 }
