@@ -2,6 +2,13 @@
 
 
 @section('content')
+    <div class="row mb-4">
+        <div class="col-12">
+            <a href="{{route('survey.index')}}" class="btn btn-primary">
+                <i class="mdi mdi-keyboard-backspace"></i>
+            </a>
+        </div>
+    </div>
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">

@@ -2,6 +2,13 @@
 
 
 @section('content')
+    <div class="row mb-4">
+        <div class="col-12">
+            <a href="{{ route('survey.index') }}" class="btn btn-primary">
+                <i class="mdi mdi-keyboard-backspace"></i>
+            </a>
+        </div>
+    </div>
     <x-info-message />
 
     <div class="row justify-content-center">
