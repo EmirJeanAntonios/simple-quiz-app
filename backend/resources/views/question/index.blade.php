@@ -13,7 +13,7 @@
                         </a>
                     </div>
                     @foreach ($questions as $question)
-                        <x-dropdown-row :answers="$question->answers" :title="$question->question" :questionuuid="$question->uuid" />
+                        <x-dropdown-row :answers="$question->answers" :title="$question->question" :question="$question" />
                     @endforeach
                 </div>
             </div>
@@ -27,8 +27,16 @@
             document.querySelectorAll(".dropdown-row").forEach(row => {
                 const titleContainer = row.querySelector(".title-container");
                 titleContainer.addEventListener("click", function(e) {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                   
+
                     $(this.nextElementSibling).slideToggle();
                 });
+                const operationsContainer = row.querySelector(".operations")
+                operationsContainer.addEventListener("click",function(e){
+                    e.stopPropagation();
+                })
             });
 
             $(".answers-table input[type='radio']").click(function(e){
@@ -51,5 +59,71 @@
 
             });
         }
+
+
+        $(".btn-danger.question-delete").click(function(e) {
+            const questionuuid = this.dataset.questionuuid;
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        method: "delete",
+                        url: "/question/" + questionuuid,
+                        data:{
+                            "_token":"{{csrf_token()}}"
+                        },
+                        success: function(res) {
+                            Swal.fire(
+                                'Deleted!',
+                                'Question has been deleted.',
+                                'success'
+                            ).then((result) => {
+                                window.location.reload();
+                            })
+                        }
+                    })
+
+                }
+            })
+        })
+        $(".btn-danger.answer-delete").click(function(e) {
+            const answeruuid = this.dataset.answeruuid;
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        method: "delete",
+                        url: "/answers/" + answeruuid,
+                        data:{
+                            "_token":"{{csrf_token()}}"
+                        },
+                        success: function(res) {
+                            Swal.fire(
+                                'Deleted!',
+                                'Answer has been deleted.',
+                                'success'
+                            ).then((result) => {
+                                window.location.reload();
+                            })
+                        }
+                    })
+
+                }
+            })
+        })
     </script>
 @endsection

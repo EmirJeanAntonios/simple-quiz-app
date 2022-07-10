@@ -17,7 +17,8 @@ class QuestionController extends Controller
     public function index($surveyuuid)
     {
         $survey = Survey::where("uuid", "=", $surveyuuid)->first();
-        $questions = $survey->questions()->get();
+        $questions = $survey->questions()->where("isActive","=",true)->get();
+        
         return view("question.index", compact("survey", "questions"));
     }
 
@@ -102,6 +103,15 @@ class QuestionController extends Controller
      */
     public function destroy(Question $question)
     {
-        //
+        try {
+            foreach ($question->answers as $answer) {
+                $answer->isActive = false;
+                $answer->save();
+            }
+            $question->isActive = false;
+            $question->save();
+        } catch (\Throwable $th) {
+            Log::error($th);
+        }
     }
 }

@@ -26,7 +26,7 @@ class AnswersController extends Controller
      */
     public function create($questionuuid)
     {
-        return view("answer.create",compact("questionuuid"));
+        return view("answer.create", compact("questionuuid"));
     }
 
     /**
@@ -35,7 +35,7 @@ class AnswersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,$questionuuid)
+    public function store(Request $request, $questionuuid)
     {
         try {
             $question = Question::where("uuid", "=", $questionuuid)->first();
@@ -44,11 +44,11 @@ class AnswersController extends Controller
             // dd($question->survey());
             $answer->question()->associate($questionuuid);
             $answer->save();
-            return redirect(route("answer.create",compact("questionuuid")))->with("success","Answer is created successfully!");
+            return redirect(route("answer.create", compact("questionuuid")))->with("success", "Answer is created successfully!");
         } catch (\Throwable $th) {
             throw $th;
             Log::error($th);
-            return redirect(route("answer.create",compact("questionuuid")))->with("error","An error occured! Please check the logs!");
+            return redirect(route("answer.create", compact("questionuuid")))->with("error", "An error occured! Please check the logs!");
         }
     }
 
@@ -71,7 +71,7 @@ class AnswersController extends Controller
      */
     public function edit(Answer $answer)
     {
-        return view("answer.edit",compact("answer"));
+        return view("answer.edit", compact("answer"));
     }
 
     /**
@@ -102,13 +102,19 @@ class AnswersController extends Controller
      */
     public function destroy(Answer $answer)
     {
-        //
+        try {
+            $answer->isActive = false;
+            $answer->save();
+        } catch (\Throwable $th) {
+            Log::error($th);
+        }
     }
 
-    public function changeIsCorrect(Request $request) {
+    public function changeIsCorrect(Request $request)
+    {
 
-        $SelectedAnswer = Answer::where("uuid","=",$request->answer)->first();
-        $question = Question::where("uuid","=",$request->question)->first();
+        $SelectedAnswer = Answer::where("uuid", "=", $request->answer)->first();
+        $question = Question::where("uuid", "=", $request->question)->first();
 
         foreach ($question->answers as $answer) {
             $answer->update([
@@ -120,6 +126,5 @@ class AnswersController extends Controller
         ]);
 
         return response()->json("success");
-
     }
 }

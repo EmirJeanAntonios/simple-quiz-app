@@ -26,10 +26,10 @@ Route::group(["middleware" => "auth"], function () {
     Route::resource("survey", SurveyController::class);
 
     Route::resource("question",QuestionController::class)->only([
-        'edit','update'
+        'edit','update','destroy'
     ]);
      Route::resource("answers",AnswersController::class)->only([
-        'edit','update'
+        'edit','update','destroy'
     ]);
 
     Route::get("{surveyuuid}/question", [QuestionController::class, "index"])->name("question.index");
