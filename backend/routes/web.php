@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnswersController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SurveyController;
 use App\Models\Question;
@@ -11,7 +12,8 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
+| ro
+utes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
 */
@@ -26,11 +28,17 @@ Route::group(["middleware" => "auth"], function () {
     Route::resource("question",QuestionController::class)->only([
         'edit','update'
     ]);
+     Route::resource("answers",AnswersController::class)->only([
+        'edit','update'
+    ]);
+
     Route::get("{surveyuuid}/question", [QuestionController::class, "index"])->name("question.index");
     Route::get("{surveyuuid}/question/create", [QuestionController::class, "create"])->name("question.create");    
-    // Route::get("question/{questionuuid}/edit", [QuestionController::class, "edit"])->name("question.edit");
     Route::post("{surveyuuid}/question/store", [QuestionController::class, "store"])->name("question.store");
-    // Route::post("question/{question}/update", [QuestionController::class, "update"])->name("question.update");
+    Route::get("{questionuuid}/answer", [AnswersController::class, "index"])->name("answer.index");
+    Route::get("{questionuuid}/answer/create", [AnswersController::class, "create"])->name("answer.create");    
+    Route::post("{questionuuid}/answer/store", [AnswersController::class, "store"])->name("answer.store");
+    
 
 
     Route::get('/dashboard', function () {

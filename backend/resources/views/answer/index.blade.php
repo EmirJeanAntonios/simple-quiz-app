@@ -13,7 +13,7 @@
                         </a>
                     </div>
                     @foreach ($questions as $question)
-                        <x-dropdown-row :answers="$question->answers" :title="$question->question" :questionuuid="$question->uuid" />
+                        <x-dropdown-row :answers="$question->answer" :title="$question->question" :questionuuid="$question->uuid" />
                     @endforeach
                 </div>
             </div>
