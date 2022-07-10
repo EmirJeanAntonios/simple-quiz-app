@@ -31,7 +31,7 @@
                     </th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="answers-table">
                 @foreach ($answers as $answer)
                     <tr>
                         <td class="py-1">
@@ -48,7 +48,7 @@
                             </div>
                         </td>
                         <td>
-                            <input type="radio" name="isCorrect-{{$questionuuid}}" id="" value="{{$answer->isCorrect}}">
+                            <input type="radio" @if($answer->isCorrect) checked @endif name="isCorrect-{{$questionuuid}}" id="{{$answer->uuid}}" value="{{$answer->isCorrect}}">
                         </td>
                     </tr>
                 @endforeach

@@ -104,4 +104,22 @@ class AnswersController extends Controller
     {
         //
     }
+
+    public function changeIsCorrect(Request $request) {
+
+        $SelectedAnswer = Answer::where("uuid","=",$request->answer)->first();
+        $question = Question::where("uuid","=",$request->question)->first();
+
+        foreach ($question->answers as $answer) {
+            $answer->update([
+                "isCorrect" => false
+            ]);
+        }
+        $SelectedAnswer->update([
+            "isCorrect" => true
+        ]);
+
+        return response()->json("success");
+
+    }
 }

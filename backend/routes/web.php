@@ -38,6 +38,7 @@ Route::group(["middleware" => "auth"], function () {
     Route::get("{questionuuid}/answer", [AnswersController::class, "index"])->name("answer.index");
     Route::get("{questionuuid}/answer/create", [AnswersController::class, "create"])->name("answer.create");    
     Route::post("{questionuuid}/answer/store", [AnswersController::class, "store"])->name("answer.store");
+    Route::post("/answer/changeIsCorrect", [AnswersController::class, "changeIsCorrect"])->name("answer.changeIsCorrect");
     
 
 

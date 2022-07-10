@@ -21,15 +21,35 @@
     </div>
 @endsection
 
-@section("script")
+@section('script')
+    <script>
+        if (document.querySelector(".dropdown-row") != null) {
+            document.querySelectorAll(".dropdown-row").forEach(row => {
+                const titleContainer = row.querySelector(".title-container");
+                titleContainer.addEventListener("click", function(e) {
+                    $(this.nextElementSibling).slideToggle();
+                });
+            });
 
-<script>
-    document.querySelectorAll(".dropdown-row").forEach(row => {
-        const titleContainer = row.querySelector(".title-container");
-        titleContainer.addEventListener("click",function(e){
-            $(this.nextElementSibling).slideToggle();
-        });
-    });
-</script>
+            $(".answers-table input[type='radio']").click(function(e){
+                let answer = this.id;
+                let question = this.name.split("isCorrect-")[1];
 
+                $.ajax({
+                    method:"POST",
+                    url:"{{route('answer.changeIsCorrect')}}",
+                    data:{
+                        answer,
+                        question,
+                        "_token":"{{csrf_token()}}"
+                    }
+                }).done(function(response){
+                    console.log(response)
+                })
+                
+
+
+            });
+        }
+    </script>
 @endsection
