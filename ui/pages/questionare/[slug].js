@@ -1,18 +1,26 @@
+import QuestionCard from "../../components/QuestionCard";
 import httpClient from "../../services/httpClient";
 
 export default function questionare({ questionare }) {
-  return <h1>Hello World</h1>;
+  return <div className="grid grid-cols-12">
+    {questionare &&
+      questionare.map((question) => {
+        return <QuestionCard answers={question.answers} question={question} />;
+      })}
+  </div>;
 }
 
 export async function getServerSideProps({ params }) {
   try {
-    const data = await httpClient.axiosInstance.get(`/survey/${params.slug}`);
-    console.log(data.data)
+    const questionare = await httpClient.axiosInstance.get(
+      `/survey/${params.slug}`
+    );
+
     return {
-      props:{
-        data: data.data
-      }
-    }
+      props: {
+        questionare: questionare.data,
+      },
+    };
   } catch (error) {
     return {
       notFound: true,
