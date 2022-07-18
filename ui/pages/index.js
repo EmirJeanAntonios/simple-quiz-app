@@ -13,11 +13,7 @@ export default function Home({ questionares }) {
 }
 
 export async function getStaticProps() {
-  // Get external data from the file system, API, DB, etc.
   const questionares = await httpClient.axiosInstance.get("/surveys");
-
-  // The value of the `props` key will be
-  //  passed to the `Home` component
   return {
     props: {
       questionares: questionares.data,
