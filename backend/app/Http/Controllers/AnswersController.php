@@ -26,7 +26,8 @@ class AnswersController extends Controller
      */
     public function create($questionuuid)
     {
-        return view("answer.create", compact("questionuuid"));
+        $surveyuuid = Question::where("uuid","=",$questionuuid)->first()->survey;
+        return view("answer.create", compact("questionuuid","surveyuuid"));
     }
 
     /**
@@ -71,7 +72,8 @@ class AnswersController extends Controller
      */
     public function edit(Answer $answer)
     {
-        return view("answer.edit", compact("answer"));
+        $surveyuuid = $answer->question->survey;
+        return view("answer.edit", compact("answer","surveyuuid"));
     }
 
     /**

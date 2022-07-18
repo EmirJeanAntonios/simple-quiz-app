@@ -4,7 +4,7 @@
 @section('content')
     <div class="row mb-4">
         <div class="col-12">
-            <a href="{{ route('question.index',$question->survey) }}" class="btn btn-primary">
+            <a href="{{ route('question.index',$surveyuuid) }}" class="btn btn-primary">
                 <i class="mdi mdi-keyboard-backspace"></i>
             </a>
         </div>

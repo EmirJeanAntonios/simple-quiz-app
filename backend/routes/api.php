@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get("surveys",[ApiController::class,"surveys"]);
+Route::get("survey/{uuid}",[ApiController::class,"survey"]);

@@ -17,8 +17,8 @@ class QuestionController extends Controller
     public function index($surveyuuid)
     {
         $survey = Survey::where("uuid", "=", $surveyuuid)->first();
-        $questions = $survey->questions()->where("isActive","=",true)->get();
-        
+        $questions = $survey->questions()->where("isActive", "=", true)->get();
+
         return view("question.index", compact("survey", "questions"));
     }
 
@@ -47,9 +47,10 @@ class QuestionController extends Controller
             // dd($question->survey());
             $question->survey()->associate($surveyuuid);
             $question->save();
-            return "success";
+            return redirect(route("question.create",$surveyuuid))->with("success", "Successfuly added!");
         } catch (\Throwable $th) {
-            throw $th;
+            Log::error($th);
+            return redirect(route("question.create",$surveyuuid))->with("error", "An Error Occured! Please Check The logs");
         }
     }
 

@@ -6,7 +6,7 @@ export default function Home({ questionares }) {
     <div className="grid grid-cols-4">
       {questionares &&
         questionares.map((questionare) => {
-          return <QuestionareCard questionare={questionare} />;
+          return <QuestionareCard key={questionare.uuid} questionare={questionare} />;
         })}
     </div>
   );
