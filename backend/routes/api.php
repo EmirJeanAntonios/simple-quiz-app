@@ -21,3 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get("surveys",[ApiController::class,"surveys"]);
 Route::get("survey/{uuid}",[ApiController::class,"survey"]);
+Route::post("survey/{uuid}/check-answers",[ApiController::class,"checkAnswers"])->middleware("cors")->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);;
+

@@ -20,7 +20,7 @@ export const AnswerCard = ({ answer }) => {
 
   return (
     <div className="py-4 flex gap-4">
-      <input type="radio" name={answer.question_uuid} value={answer.answer} id={id} onChange={updateAnswer}/>
+      <input type="radio" name={answer.question_uuid} value={answer.uuid} id={id} onChange={updateAnswer}/>
       <label htmlFor={id}>{answer.answer}</label>
     </div>
   );
