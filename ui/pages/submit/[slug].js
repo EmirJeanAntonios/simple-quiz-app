@@ -2,8 +2,10 @@ import httpClient from "../../services/httpClient";
 import { useSelector } from "react-redux";
 import { useEffect, useLayoutEffect, useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function submit(params) {
+  const router = useRouter();
   const answers = useSelector((state) => {
     return state.answers;
   });
@@ -14,36 +16,30 @@ export default function submit(params) {
   const [trueAnswers, setTrueAnswers] = useState(0);
   const [totalAnswers, settotalAnswers] = useState(0);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     async function checkAnswers() {
-      let response = await axios.post(
-        `http://localhost:8000/api/survey/${params.slug}/check-answers`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods":
-              "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-            "Access-Control-Allow-Headers":
-              "Origin, Content-Type, X-Auth-Token, Authorization, Accept,charset,boundary,Content-Length",
-          },
-          data: {
-            answers,
-          },
-        }
-      );
-
-      if (response.status == 404) {
-        return (
-          <>
-            <Error statusCode={404} />
-            <Footer className="mx-64" />
-          </>
-        )
+      if (totalQuestionCount != 0) {
+        let response = await axios.post(
+          `http://localhost:8000/api/survey/${params.slug}/check-answers`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods":
+                "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+              "Access-Control-Allow-Headers":
+                "Origin, Content-Type, X-Auth-Token, Authorization, Accept,charset,boundary,Content-Length",
+            },
+            data: {
+              answers,
+            },
+          }
+        );  
+        setTrueAnswers(response.data.correctAnswers);
+        settotalAnswers(response.data.totalQuestions);
+      } else {
+        router.push("/");
       }
-
-      setTrueAnswers(response.data.correctAnswers);
-      settotalAnswers(response.data.totalQuestions);
     }
     checkAnswers();
   }, []);

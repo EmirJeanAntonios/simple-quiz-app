@@ -2,10 +2,21 @@ import { useState } from "react";
 import QuestionCard from "../../components/QuestionCard";
 import { SubmitButton } from "../../components/SubmitButton";
 import httpClient from "../../services/httpClient";
+import { useRouter } from 'next/router'
 
 export default function questionare({ questionare }) {
+  const router = useRouter();
+  const questionareFinished = (e) => {
+    e.preventDefault();
+    router.push({
+      pathname: '/submit/[slug]',
+      query: { slug: router.query.slug},
+      
+    })
+  }
+
   return (
-    <div className="grid grid-cols-12">
+    <form onSubmit={questionareFinished} className="grid grid-cols-12">
       {questionare &&
         questionare.map((question) => {
           return (
@@ -15,7 +26,7 @@ export default function questionare({ questionare }) {
       <div className="col-start-10 col-end-12 py-16">
         <SubmitButton />
       </div>
-    </div>
+    </form>
   );
 }
 
