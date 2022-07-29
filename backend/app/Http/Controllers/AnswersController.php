@@ -43,6 +43,9 @@ class AnswersController extends Controller
             $answer = new Answer();
             $answer->answer = $request->answer;
             // dd($question->survey());
+            if ($question->answers()->count() < 1) {
+                $answer->isCorrect = true;
+            }
             $answer->question()->associate($questionuuid);
             $answer->save();
             return redirect(route("answer.create", compact("questionuuid")))->with("success", "Answer is created successfully!");
